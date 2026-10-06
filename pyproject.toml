@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "schemascore"
+version = "0.1.0"
+description = "Field-level evals for structured LLM output: validity, per-field accuracy, and CI gates on regressions."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Ananda Poudel", email = "email@anandapoudel.com" }]
+requires-python = ">=3.10"
+dependencies = ["pydantic>=2"]
+keywords = ["llm", "evals", "pydantic", "structured-output", "extraction"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Testing",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/farfieldai/schemascore"
+Repository = "https://github.com/farfieldai/schemascore"
+Issues = "https://github.com/farfieldai/schemascore/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+schemascore = "schemascore.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/schemascore"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
