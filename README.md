@@ -112,6 +112,10 @@ overall    70.8%
 - **One call per case.** Model output varies between runs; before trusting a
   small difference, run more than once or use more cases.
 
+## Author
+
+Built and maintained by **Ananda Poudel** ([email@anandapoudel.com](mailto:email@anandapoudel.com)).
+
 ## License
 
-MIT
+MIT © Ananda Poudel
