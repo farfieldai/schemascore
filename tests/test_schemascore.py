@@ -130,20 +130,28 @@ def test_target_exceptions_are_caught():
 
 
 def test_threaded_and_async_targets():
-    threads = set()
+    # Four threads must reach the barrier together, or it times out and the
+    # cases fail: this passes only if cases really run four at a time.
+    barrier = threading.Barrier(4, timeout=5)
 
     def sync_target(x):
-        threads.add(threading.get_ident())
+        barrier.wait()
         return x
 
+    in_flight, peak = 0, 0
+
     async def async_target(x):
-        await asyncio.sleep(0)
+        nonlocal in_flight, peak
+        in_flight += 1
+        peak = max(peak, in_flight)
+        await asyncio.sleep(0.01)
+        in_flight -= 1
         return x
 
     cases = [Case(str(i), GOOD, GOOD) for i in range(8)]
     assert evaluate(Order, cases, sync_target, concurrency=4).overall == 1.0
-    assert len(threads) > 1
     assert evaluate(Order, cases, async_target, concurrency=4).overall == 1.0
+    assert peak == 4  # concurrency caps async tasks too
 
 
 def test_dict_cases_get_auto_ids():
